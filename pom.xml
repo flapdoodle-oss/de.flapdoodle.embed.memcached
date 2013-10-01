@@ -14,7 +14,7 @@
 	<version>1.0-SNAPSHOT</version>
 
 	<description>A embedded memcache ...</description>
-	<url>http://github.com/flapdoodle-oss/embedredis.flapdoodle.de.git</url>
+	<url>http://github.com/flapdoodle-oss/de.flapdoodle.embed.memcached.git</url>
 
 	<licenses>
 		<license>
@@ -24,12 +24,13 @@
 		</license>
 	</licenses>
 
-	<scm>
-		<connection>scm:git:git@github.com:flapdoodle-oss/embedmemcache.flapdoodle.de.git</connection>
-		<developerConnection>scm:git:git@github.com:flapdoodle-oss/embedmemcache.flapdoodle.de.git</developerConnection>
-		<url>git@github.com:flapdoodle-oss/embedmemcache.flapdoodle.de.git</url>
-	</scm>
 
+	<scm>
+		<connection>scm:git:git@github.com:flapdoodle-oss/de.flapdoodle.embed.memcached.git</connection>
+		<developerConnection>scm:git:git@github.com:flapdoodle-oss/de.flapdoodle.embed.memcached.git</developerConnection>
+		<url>git@github.com:flapdoodle-oss/de.flapdoodle.embed.memcached.git</url>
+	</scm>
+ 
 	<!-- https://docs.sonatype.org/display/Repository/Central+Sync+Requirements 
 		https://docs.sonatype.org/display/Repository/Sonatype+OSS+Maven+Repository+Usage+Guide 
 		https://docs.sonatype.org/display/Repository/How+To+Generate+PGP+Signatures+With+Maven -->
@@ -201,6 +202,8 @@
 			</plugin>
 -->
 
+		<!-- skip this -->
+<!--
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
@@ -208,8 +211,7 @@
 					<argLine>-Djava.library.path=target/lib/</argLine>
 				</configuration>
 			</plugin>
-		
-		<!-- skip this -->
+-->		
 			<!-- download and unpack the Sigar distribution as part of the 'package' 
 				phase such that we can map into the assembly -->
 				<!--
@@ -297,8 +299,31 @@
 				</plugins>
 			</build>
 		</profile>
+		<profile>
+			<id>skip-test-in-release</id>
+			<activation>
+				<property>
+					<name>skipTests</name>
+					<value>true</value>
+				</property>
+			</activation>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-surefire-plugin</artifactId>
+						<version>2.11</version>
+						<configuration>
+							<excludes>
+								<exclude>**/**</exclude>
+							</excludes>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
 	</profiles>
-
+ 
 	<dependencies>
 		<dependency>
 			<groupId>junit</groupId>
@@ -306,17 +331,17 @@
 			<version>4.10</version>
 			<scope>test</scope>
 		</dependency>
-
-        <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-exec</artifactId>
-            <version>1.1</version>
-        </dependency>
-        
+		
         <dependency>
            <groupId>org.apache.commons</groupId>
            <artifactId>commons-lang3</artifactId>
            <version>3.1</version>
+        </dependency>
+        
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-exec</artifactId>
+            <version>1.1</version>
         </dependency>
         
 		<dependency>
