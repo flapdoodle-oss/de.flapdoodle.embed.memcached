@@ -21,10 +21,10 @@ Stable (Maven Central Repository, Released: 01.10.2013 - wait 24hrs for [maven c
 	<dependency>
 		<groupId>de.flapdoodle.embed</groupId>
 		<artifactId>de.flapdoodle.embed.memcached</artifactId>
-		<version>1.00</version>
+		<version>1.0</version>
 	</dependency>
 
-Snapshots (Repository http://oss.sonatype.org/content/repositories/snapshots/de/flapdoodle/embed/de.flapdoodle.embed.memcached)
+Snapshots (Repository [http://oss.sonatype.org/content/repositories/snapshots/](http://oss.sonatype.org/content/repositories/snapshots/de/flapdoodle/embed/de.flapdoodle.embed.memcached) )
 
 	<dependency>
 		<groupId>de.flapdoodle.embed</groupId>
