@@ -42,8 +42,6 @@ import de.flapdoodle.embed.process.extract.IExtractedFileSet;
 import de.flapdoodle.embed.process.io.LogWatchStreamProcessor;
 import de.flapdoodle.embed.process.io.Processors;
 import de.flapdoodle.embed.process.io.StreamToLineProcessor;
-import de.flapdoodle.embed.process.io.directories.PropertyOrPlatformTempDir;
-import de.flapdoodle.embed.process.io.file.Files;
 import de.flapdoodle.embed.process.runtime.AbstractProcess;
 import de.flapdoodle.embed.process.runtime.ProcessControl;
 import de.flapdoodle.embed.process.runtime.Processes;
@@ -90,9 +88,6 @@ public class MemcachedProcess
 				}
 
 				stopProcess();
-
-				deleteTempFiles();
-
 			}
 		}
 	}
@@ -103,16 +98,6 @@ public class MemcachedProcess
 		super.onBeforeProcess(runtimeConfig);
 
 		MemcachedConfig config = getConfig();
-
-		File tmpPidFile;
-		if (config.getStorage().getPidFile() != null) {
-			tmpPidFile = new File(pidFile, config.getStorage()
-					.getPidFile());
-		} else {
-			tmpPidFile = new File(PropertyOrPlatformTempDir
-					.defaultInstance().asFile(), "memcached.pid");
-		}
-		this.pidFile = tmpPidFile;
 	}
 
 	@Override
@@ -125,7 +110,7 @@ public class MemcachedProcess
 			MemcachedConfig config, IExtractedFileSet exe)
 			throws IOException {
 		return Memcached.enhanceCommandLinePlattformSpecific(distribution,
-				Memcached.getCommandLine(getConfig(), exe, pidFile));
+				Memcached.getCommandLine(getConfig(), exe, pidFile()));
 	}
 
 	@Override
@@ -141,13 +126,6 @@ public class MemcachedProcess
 					.getParent());
 		}
 		return environment;
-	}
-
-	protected void deleteTempFiles() {
-
-		if ((pidFile != null) && (!Files.forceDelete(pidFile))) {
-			logger.warning("Could not delete temp pid file: " + pidFile);
-		}
 	}
 
 	@Override
@@ -176,10 +154,8 @@ public class MemcachedProcess
 			// on Unix
 			// (won't help us much here..) and needs Sigar lib on Windows.
 			setProcessId(process.getPid());
-			// write pid to file
-			forceWritePidFile(process.getPid());
 		} else {
-			setProcessId(getPidFromFile(pidFile));
+			setProcessId(getPidFromFile(pidFile()));
 		}
 	}
 
