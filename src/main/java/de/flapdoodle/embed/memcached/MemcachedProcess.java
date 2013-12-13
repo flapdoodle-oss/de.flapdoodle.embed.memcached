@@ -161,7 +161,6 @@ public class MemcachedProcess
 
 	@Override
 	protected void cleanupInternal() {
-
 	}
 
 	public static void stopStaleProcess(File pidFile, IVersion version)

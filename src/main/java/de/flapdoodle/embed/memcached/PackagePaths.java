@@ -22,6 +22,7 @@ package de.flapdoodle.embed.memcached;
 
 import java.util.logging.Logger;
 
+import de.flapdoodle.embed.memcached.config.ArtifactStoreBuilder;
 import de.flapdoodle.embed.process.config.store.FileSet;
 import de.flapdoodle.embed.process.config.store.FileType;
 import de.flapdoodle.embed.process.config.store.IPackageResolver;
@@ -58,9 +59,13 @@ public class PackagePaths implements IPackageResolver {
 			throw new IllegalArgumentException("Unknown Platform "
 					+ distribution.getPlatform());
 		}
-		return FileSet.builder()
-				.addEntry(FileType.Executable, memcachedPattern)
-				.build();
+		FileSet.Builder fbuilder = FileSet.builder().addEntry(
+				FileType.Executable, memcachedPattern);
+		for (String lib : ArtifactStoreBuilder.libraryStore().getLibrary(
+				distribution.getPlatform())) {
+			fbuilder.addEntry(FileType.Library, lib);
+		}
+		return fbuilder.build();
 	}
 
 	@Override

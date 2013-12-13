@@ -30,8 +30,6 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import junit.framework.TestCase;
-import net.spy.memcached.MemcachedClient;
 import de.flapdoodle.embed.memcached.Command;
 import de.flapdoodle.embed.memcached.MemcachedExecutable;
 import de.flapdoodle.embed.memcached.MemcachedProcess;
@@ -62,13 +60,15 @@ import de.flapdoodle.embed.process.io.file.Files;
 import de.flapdoodle.embed.process.io.progress.LoggingProgressListener;
 import de.flapdoodle.embed.process.runtime.ICommandLinePostProcessor;
 import de.flapdoodle.embed.process.runtime.Network;
+import junit.framework.TestCase;
+import net.spy.memcached.MemcachedClient;
 
 public class TestExampleReadMeCode extends TestCase {
 
 	@Override
 	protected void setUp() {
 		for (String lib : new String[] { "libgcc_s_sjlj-1.dll",
-				"mingwm10.dll", "pthreadGC2.dll" }) {
+				"mingwm10.dll", "pthreadGC2.dll", "libevent-2.0.so.5" }) {
 			Files.forceDelete(new File(PropertyOrPlatformTempDir
 					.defaultInstance().asFile(), lib));
 		}

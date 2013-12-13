@@ -40,7 +40,7 @@ public class ArtifactStoreBuilder extends
 		return this;
 	}
 
-	private ILibraryStore libraryStore() {
+	public static ILibraryStore libraryStore() {
 		LibraryStoreBuilder libraryStoreBuilder = new LibraryStoreBuilder()
 				.defaults();
 
