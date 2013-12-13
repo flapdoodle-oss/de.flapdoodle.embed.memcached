@@ -25,23 +25,23 @@ import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.util.logging.Logger;
 
-import junit.framework.Assert;
-import junit.framework.TestCase;
-import net.spy.memcached.MemcachedClient;
-
-import org.junit.Before;
+import org.apache.commons.io.FileUtils;
 import org.junit.Test;
 
+import de.flapdoodle.embed.memcached.config.ArtifactStoreBuilder;
 import de.flapdoodle.embed.memcached.config.MemcachedConfig;
 import de.flapdoodle.embed.memcached.config.RuntimeConfigBuilder;
 import de.flapdoodle.embed.memcached.distribution.Version;
 import de.flapdoodle.embed.process.config.IRuntimeConfig;
+import de.flapdoodle.embed.process.io.directories.IDirectory;
 import de.flapdoodle.embed.process.io.directories.PropertyOrPlatformTempDir;
-import de.flapdoodle.embed.process.io.file.Files;
+import junit.framework.Assert;
+import junit.framework.TestCase;
+import net.spy.memcached.MemcachedClient;
 
 /**
  * Integration test for starting and stopping MongodExecutable
- * 
+ *
  * @author m.joehren
  */
 // CHECKSTYLE:OFF
@@ -49,16 +49,6 @@ public class MemcachedExecutableTest extends TestCase {
 
 	private static final Logger _logger = Logger
 			.getLogger(MemcachedExecutableTest.class.getName());
-
-	@Override
-	@Before
-	protected void setUp() {
-		for (String lib : new String[] { "libgcc_s_sjlj-1.dll",
-				"mingwm10.dll", "pthreadGC2.dll" }) {
-			Files.forceDelete(new File(PropertyOrPlatformTempDir
-					.defaultInstance().asFile(), lib));
-		}
-	}
 
 	@Test
 	public void testStartStopTenTimesWithNewMemcacheExecutable()
@@ -102,35 +92,45 @@ public class MemcachedExecutableTest extends TestCase {
 	public void testStartMemcachedOnNonFreePort() throws IOException,
 			InterruptedException {
 
-		MemcachedConfig mongodConfig = new MemcachedConfig(
+		MemcachedConfig memcachedConfig = new MemcachedConfig(
 				Version.Main.PRODUCTION, 12346);
 
-		IRuntimeConfig runtimeConfig = new RuntimeConfigBuilder().defaults(
-				Command.MemcacheD).build();
+		final File outer = new File(
+				new PropertyOrPlatformTempDir().asFile(), "outer");
+		FileUtils.forceMkdir(outer);
+		IRuntimeConfig runtimeConfig = new RuntimeConfigBuilder()
+				.defaults(Command.MemcacheD)
+				.artifactStore(
+						new ArtifactStoreBuilder()
+								.defaultsWithoutCache(
+										Command.MemcacheD)
+								.tempDir(new IDirectory() {
+									@Override
+									public File asFile() {
+										return outer;
+									}
+								})).build();
 
 		MemcachedExecutable memcachedExe = MemcachedStarter.getInstance(
-				runtimeConfig).prepare(mongodConfig);
+				runtimeConfig).prepare(memcachedConfig);
 		MemcachedProcess memcached = memcachedExe.start();
 
 		boolean innerMongodCouldNotStart = false;
-		{
-			Thread.sleep(500);
+		Thread.sleep(500);
 
-			MemcachedExecutable innerExe = MemcachedStarter.getInstance(
-					runtimeConfig).prepare(mongodConfig);
-			try {
-				MemcachedProcess innerMemcached = innerExe.start();
-			} catch (IOException iox) {
-				innerMongodCouldNotStart = true;
-			} finally {
-				innerExe.stop();
-				Assert.assertTrue("inner Mongod could not start",
-						innerMongodCouldNotStart);
-			}
+		MemcachedExecutable innerExe = MemcachedStarter.getInstance(
+				new RuntimeConfigBuilder().defaults(Command.MemcacheD)
+						.build()).prepare(memcachedConfig);
+		try {
+			MemcachedProcess innerMemcached = innerExe.start();
+		} catch (IOException iox) {
+			innerMongodCouldNotStart = true;
+		} finally {
+			innerExe.stop();
+			Assert.assertTrue("inner Mongod could not start",
+					innerMongodCouldNotStart);
+			memcached.stop();
+			memcachedExe.stop();
 		}
-
-		memcached.stop();
-		memcachedExe.stop();
 	}
-
 }
