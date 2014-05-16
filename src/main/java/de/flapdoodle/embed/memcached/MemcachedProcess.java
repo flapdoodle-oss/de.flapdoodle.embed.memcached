@@ -33,7 +33,6 @@ import de.flapdoodle.embed.memcached.config.MemcachedConfig;
 import de.flapdoodle.embed.memcached.config.SupportConfig;
 import de.flapdoodle.embed.memcached.runtime.Memcached;
 import de.flapdoodle.embed.process.config.IRuntimeConfig;
-import de.flapdoodle.embed.process.config.ISupportConfig;
 import de.flapdoodle.embed.process.config.io.ProcessOutput;
 import de.flapdoodle.embed.process.distribution.Distribution;
 import de.flapdoodle.embed.process.distribution.IVersion;
@@ -98,11 +97,6 @@ public class MemcachedProcess
 		super.onBeforeProcess(runtimeConfig);
 
 		MemcachedConfig config = getConfig();
-	}
-
-	@Override
-	protected ISupportConfig supportConfig() {
-		return new SupportConfig(Command.MemcacheD);
 	}
 
 	@Override

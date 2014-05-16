@@ -24,6 +24,7 @@ import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
+import de.flapdoodle.embed.memcached.Command;
 import de.flapdoodle.embed.process.config.ExecutableProcessConfig;
 import de.flapdoodle.embed.process.distribution.IVersion;
 import de.flapdoodle.embed.process.runtime.Network;
@@ -42,7 +43,7 @@ public class MemcachedConfig extends ExecutableProcessConfig {
 
 	public MemcachedConfig(IVersion version, Net networt, Storage storage,
 			Timeout timeout) {
-		super(version);
+		super(version, new SupportConfig(Command.MemcacheD));
 		this.network = networt;
 		this.timeout = timeout;
 		this.storage = storage;

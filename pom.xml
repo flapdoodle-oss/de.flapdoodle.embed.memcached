@@ -81,6 +81,7 @@
 						<exclude>**/live/**</exclude>
 						<exclude>**/examples/**</exclude>
 					</excludes>
+					<runOrder>alphabetical</runOrder>
 				</configuration>
 			</plugin>
 
@@ -347,7 +348,7 @@
 				<dependency>
 					<groupId>de.flapdoodle.embed</groupId>
 					<artifactId>de.flapdoodle.embed.process</artifactId>
-					<version>1.36</version>
+					<version>1.38</version>
 				</dependency>
 
 				<dependency>
