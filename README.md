@@ -16,12 +16,12 @@ de.flapdoodle.embed.memcached
 
 ### Maven
 
-Stable (Maven Central Repository, Released: 14.01.2014 - wait 24hrs for [maven central](http://repo1.maven.org/maven2/de/flapdoodle/embed/de.flapdoodle.embed.memcached/maven-metadata.xml))
+Stable (Maven Central Repository, Released: 28.05.2014 - wait 24hrs for [maven central](http://repo1.maven.org/maven2/de/flapdoodle/embed/de.flapdoodle.embed.memcached/maven-metadata.xml))
 
 	<dependency>
 		<groupId>de.flapdoodle.embed</groupId>
 		<artifactId>de.flapdoodle.embed.memcached</artifactId>
-		<version>1.04</version>
+		<version>1.05.0</version>
 	</dependency>
 
 Snapshots (Repository [http://oss.sonatype.org/content/repositories/snapshots/](http://oss.sonatype.org/content/repositories/snapshots/de/flapdoodle/embed/de.flapdoodle.embed.memcached) )
@@ -29,6 +29,6 @@ Snapshots (Repository [http://oss.sonatype.org/content/repositories/snapshots/](
 	<dependency>
 		<groupId>de.flapdoodle.embed</groupId>
 		<artifactId>de.flapdoodle.embed.memcached</artifactId>
-		<version>1.05-SNAPSHOT</version>
+		<version>1.05.1-SNAPSHOT</version>
 	</dependency>
 
