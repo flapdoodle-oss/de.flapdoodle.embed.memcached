@@ -28,6 +28,7 @@ import java.io.InputStreamReader;
 
 import net.spy.memcached.MemcachedClient;
 
+import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -48,6 +49,11 @@ public class MemcachedForTestsFactoryTest {
 				.with(Version.Main.PRODUCTION);
 	}
 
+	@After
+	public void tearDownJmemcache1() {
+		jmemcache.shutdown();
+	}
+
 	@AfterClass
 	public static void tearDownJmemcache() throws Exception {
 		testsFactory.shutdown();
@@ -61,6 +67,7 @@ public class MemcachedForTestsFactoryTest {
 		jmemcache = testsFactory.newMemcachedClient();
 	}
 
+	@Test
 	public void testMemcacheInstanceCreated() {
 		assertNotNull(jmemcache);
 	}

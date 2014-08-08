@@ -25,6 +25,8 @@ import java.net.InetSocketAddress;
 import java.util.ArrayList;
 import java.util.List;
 
+import junit.framework.TestCase;
+import net.spy.memcached.MemcachedClient;
 import de.flapdoodle.embed.memcached.config.MemcachedConfig;
 import de.flapdoodle.embed.memcached.config.RuntimeConfigBuilder;
 import de.flapdoodle.embed.memcached.distribution.Version;
@@ -35,8 +37,6 @@ import de.flapdoodle.embed.process.distribution.IVersion;
 import de.flapdoodle.embed.process.distribution.Platform;
 import de.flapdoodle.embed.process.extract.IExtractedFileSet;
 import de.flapdoodle.embed.process.store.IArtifactStore;
-import junit.framework.TestCase;
-import net.spy.memcached.MemcachedClient;
 
 // CHECKSTYLE:OFF
 public class MemcachedRuntimeTest extends TestCase {
@@ -45,7 +45,7 @@ public class MemcachedRuntimeTest extends TestCase {
 
 	}
 
-	public void testDistributions() throws IOException {
+	public void testDistributions() throws IOException, InterruptedException {
 		RuntimeConfigBuilder defaultBuilder = new RuntimeConfigBuilder()
 				.defaults(Command.MemcacheD);
 
@@ -98,7 +98,7 @@ public class MemcachedRuntimeTest extends TestCase {
 	}
 
 	private void check(IRuntimeConfig runtime, Distribution distribution)
-			throws IOException {
+			throws IOException, InterruptedException {
 		IArtifactStore astore = runtime.getArtifactStore();
 		assertTrue("Check", astore.checkDistribution(distribution));
 		IExtractedFileSet memcached = runtime.getArtifactStore()
@@ -106,6 +106,7 @@ public class MemcachedRuntimeTest extends TestCase {
 		assertNotNull("Extracted", memcached.executable());
 		astore.removeFileSet(distribution, memcached);
 		assertFalse("Delete", memcached.executable().exists());
+		Thread.sleep(500);
 	}
 
 	public void testCheck() throws IOException, InterruptedException {

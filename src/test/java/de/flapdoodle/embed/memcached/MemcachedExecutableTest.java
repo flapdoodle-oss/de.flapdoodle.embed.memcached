@@ -25,6 +25,10 @@ import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.util.logging.Logger;
 
+import junit.framework.Assert;
+import junit.framework.TestCase;
+import net.spy.memcached.MemcachedClient;
+
 import org.apache.commons.io.FileUtils;
 import org.junit.Test;
 
@@ -35,13 +39,10 @@ import de.flapdoodle.embed.memcached.distribution.Version;
 import de.flapdoodle.embed.process.config.IRuntimeConfig;
 import de.flapdoodle.embed.process.io.directories.IDirectory;
 import de.flapdoodle.embed.process.io.directories.PropertyOrPlatformTempDir;
-import junit.framework.Assert;
-import junit.framework.TestCase;
-import net.spy.memcached.MemcachedClient;
 
 /**
  * Integration test for starting and stopping MongodExecutable
- *
+ * 
  * @author m.joehren
  */
 // CHECKSTYLE:OFF
@@ -83,6 +84,7 @@ public class MemcachedExecutableTest extends TestCase {
 				memcached.stop();
 			} finally {
 				memcachedExe.stop();
+				Thread.sleep(500);
 			}
 		}
 
