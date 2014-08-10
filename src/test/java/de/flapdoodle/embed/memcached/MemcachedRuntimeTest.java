@@ -52,7 +52,8 @@ public class MemcachedRuntimeTest extends TestCase {
 		IRuntimeConfig config = defaultBuilder.build();
 
 		for (Platform platform : Platform.values()) {
-			if (platform == Platform.Solaris) {
+			if (platform == Platform.Solaris
+					| platform == Platform.FreeBSD) {
 				continue;
 			}
 			for (IVersion version : Versions

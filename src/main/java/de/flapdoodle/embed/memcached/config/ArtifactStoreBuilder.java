@@ -22,16 +22,14 @@ package de.flapdoodle.embed.memcached.config;
 
 import de.flapdoodle.embed.memcached.Command;
 import de.flapdoodle.embed.process.config.store.ILibraryStore;
-import de.flapdoodle.embed.process.config.store.LibraryStoreBuilder;
-import de.flapdoodle.embed.process.distribution.Platform;
 import de.flapdoodle.embed.process.extract.UUIDTempNaming;
-import de.flapdoodle.embed.process.io.directories.PropertyOrPlatformTempDir;
+import de.flapdoodle.embed.process.io.directories.PropertyOrTempDirInPlatformTempDir;
 
 public class ArtifactStoreBuilder extends
 		de.flapdoodle.embed.process.store.ArtifactStoreBuilder {
 
 	public ArtifactStoreBuilder defaults(Command command) {
-		tempDir().setDefault(new PropertyOrPlatformTempDir());
+		tempDir().setDefault(new PropertyOrTempDirInPlatformTempDir());
 		executableNaming().setDefault(new UUIDTempNaming());
 		download().setDefault(
 				new DownloadConfigBuilder().defaultsForCommand(command)
@@ -41,21 +39,11 @@ public class ArtifactStoreBuilder extends
 	}
 
 	public static ILibraryStore libraryStore() {
-		LibraryStoreBuilder libraryStoreBuilder = new LibraryStoreBuilder()
-				.defaults();
-
-		libraryStoreBuilder.setLibraries(Platform.Windows,
-				new String[] { "libgcc_s_sjlj-1.dll", "mingwm10.dll",
-						"pthreadGC2.dll" });
-		libraryStoreBuilder.setLibraries(Platform.Linux,
-				new String[] { "libevent-2.0.so.5" });
-		libraryStoreBuilder.setLibraries(Platform.OS_X,
-				new String[] { "libevent-2.0.5.dylib" });
-		return libraryStoreBuilder.build();
+		return new MemcachedLibraryStore();
 	}
 
 	public ArtifactStoreBuilder defaultsWithoutCache(Command command) {
-		tempDir().setDefault(new PropertyOrPlatformTempDir());
+		tempDir().setDefault(new PropertyOrTempDirInPlatformTempDir());
 		executableNaming().setDefault(new UUIDTempNaming());
 		download().setDefault(
 				new DownloadConfigBuilder().defaultsForCommand(command)

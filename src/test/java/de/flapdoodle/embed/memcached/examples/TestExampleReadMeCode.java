@@ -30,6 +30,8 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import junit.framework.TestCase;
+import net.spy.memcached.MemcachedClient;
 import de.flapdoodle.embed.memcached.Command;
 import de.flapdoodle.embed.memcached.MemcachedExecutable;
 import de.flapdoodle.embed.memcached.MemcachedProcess;
@@ -56,12 +58,11 @@ import de.flapdoodle.embed.process.io.Processors;
 import de.flapdoodle.embed.process.io.directories.FixedPath;
 import de.flapdoodle.embed.process.io.directories.IDirectory;
 import de.flapdoodle.embed.process.io.directories.PropertyOrPlatformTempDir;
+import de.flapdoodle.embed.process.io.directories.UserTempDirInPlatformTempDir;
 import de.flapdoodle.embed.process.io.file.Files;
 import de.flapdoodle.embed.process.io.progress.LoggingProgressListener;
 import de.flapdoodle.embed.process.runtime.ICommandLinePostProcessor;
 import de.flapdoodle.embed.process.runtime.Network;
-import junit.framework.TestCase;
-import net.spy.memcached.MemcachedClient;
 
 public class TestExampleReadMeCode extends TestCase {
 
@@ -119,6 +120,7 @@ public class TestExampleReadMeCode extends TestCase {
 								.defaults(command)
 								.download(new DownloadConfigBuilder()
 										.defaultsForCommand(command))
+								.tempDir(new UserTempDirInPlatformTempDir())
 								.executableNaming(
 										new UserTempNaming()))
 				.build();

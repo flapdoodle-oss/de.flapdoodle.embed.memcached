@@ -62,7 +62,7 @@ public class PackagePaths implements IPackageResolver {
 		FileSet.Builder fbuilder = FileSet.builder().addEntry(
 				FileType.Executable, memcachedPattern);
 		for (String lib : ArtifactStoreBuilder.libraryStore().getLibrary(
-				distribution.getPlatform())) {
+				distribution)) {
 			fbuilder.addEntry(FileType.Library, lib);
 		}
 		return fbuilder.build();

@@ -111,6 +111,11 @@ public class MemcachedExecutableTest extends TestCase {
 									public File asFile() {
 										return outer;
 									}
+
+									@Override
+									public boolean isGenerated() {
+										return false;
+									}
 								})).build();
 
 		MemcachedExecutable memcachedExe = MemcachedStarter.getInstance(
