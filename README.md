@@ -1,4 +1,5 @@
 # Organisation Flapdoodle OSS
+[![Build Status](https://travis-ci.org/flapdoodle-oss/de.flapdoodle.embed.memcached.svg?branch=master)](https://travis-ci.org/flapdoodle-oss/de.flapdoodle.embed.memcached)
 
 We are now a github organisation. You are invited to participate. :)
 
