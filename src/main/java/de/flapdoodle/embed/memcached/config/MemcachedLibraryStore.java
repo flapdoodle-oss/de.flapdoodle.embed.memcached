@@ -44,7 +44,7 @@ public class MemcachedLibraryStore implements ILibraryStore {
 		case OS_X:
 			if (distribution.getVersion().asInDownloadPath()
 					.equals(Version.V1_4_20.asInDownloadPath())) {
-				return asList("libevent-1.4.so.dylib");
+				return asList("libevent-1.4.2.dylib");
 			}
 			return asList("libevent-2.0.5.dylib");
 		default:
