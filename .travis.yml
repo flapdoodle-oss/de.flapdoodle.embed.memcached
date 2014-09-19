@@ -6,7 +6,9 @@ jdk:
 - openjdk7
 - oraclejdk7
 - oraclejdk8
-
+os:
+  - linux
+  - osx
 env:
   matrix:
     - TARGET='mvn test'
