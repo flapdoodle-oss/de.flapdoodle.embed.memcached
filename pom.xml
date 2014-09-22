@@ -18,7 +18,7 @@
 	<groupId>de.flapdoodle.embed</groupId>
 	<artifactId>de.flapdoodle.embed.memcached</artifactId>
 	<name>Flapdoodle Embedded Memcache</name>
-	<version>1.05.2-SNAPSHOT</version>
+	<version>1.05.2</version>
 
 	<description>A embedded memcache ...</description>
 	<url>http://github.com/flapdoodle-oss/de.flapdoodle.embed.memcached.git</url>
@@ -36,7 +36,7 @@
 		<connection>scm:git:git@github.com:flapdoodle-oss/de.flapdoodle.embed.memcached.git</connection>
 		<developerConnection>scm:git:git@github.com:flapdoodle-oss/de.flapdoodle.embed.memcached.git</developerConnection>
 		<url>git@github.com:flapdoodle-oss/de.flapdoodle.embed.memcached.git</url>
-		<tag>HEAD</tag>
+		<tag>de.flapdoodle.embed.memcached-1.05.2</tag>
 	</scm>
  
 	<!-- https://docs.sonatype.org/display/Repository/Central+Sync+Requirements 
