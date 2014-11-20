@@ -24,6 +24,7 @@ import de.flapdoodle.embed.memcached.Command;
 import de.flapdoodle.embed.process.config.store.ILibraryStore;
 import de.flapdoodle.embed.process.extract.UUIDTempNaming;
 import de.flapdoodle.embed.process.io.directories.PropertyOrTempDirInPlatformTempDir;
+import de.flapdoodle.embed.process.store.Downloader;
 
 public class ArtifactStoreBuilder extends
 		de.flapdoodle.embed.process.store.ArtifactStoreBuilder {
@@ -35,6 +36,7 @@ public class ArtifactStoreBuilder extends
 				new DownloadConfigBuilder().defaultsForCommand(command)
 						.build());
 		libraries().setDefault(libraryStore());
+		downloader().setDefault(new Downloader());
 		return this;
 	}
 
@@ -51,6 +53,7 @@ public class ArtifactStoreBuilder extends
 		libraries().setDefault(libraryStore());
 		// disable caching
 		useCache().setDefault(false);
+		downloader().setDefault(new Downloader());
 		return this;
 	}
 }
