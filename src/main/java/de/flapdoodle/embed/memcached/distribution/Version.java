@@ -30,12 +30,12 @@ public enum Version implements IVersion {
 	/**
 	 * new production release
 	 */
-	V1_4_20("1.4.20_2"),
+	V1_4_22("1.4.22_1"),
 
 	/**
 	 * old production releases
 	 */
-	V1_4_15("1.4.15_2"), ;
+	V1_4_20("1.4.20_2");
 
 	private final String specificVersion;
 
@@ -57,12 +57,12 @@ public enum Version implements IVersion {
 		/**
 		 * current production release
 		 */
-		V1_4(V1_4_20),
+		V1_4(V1_4_22),
 
 		/**
 		 * old production release
 		 */
-		V1_4_OLD(V1_4_15),
+		V1_4_OLD(V1_4_20),
 
 		PRODUCTION(V1_4),
 

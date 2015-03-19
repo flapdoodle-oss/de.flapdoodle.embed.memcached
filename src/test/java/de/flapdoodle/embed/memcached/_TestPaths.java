@@ -44,15 +44,15 @@ public class _TestPaths {
 	@Test
 	public void testDistributionPathsLinux() {
 		// v 1.4.15_1
-		checkPath(new Distribution(Version.V1_4_15, Platform.Linux,
+		checkPath(new Distribution(Version.V1_4_22, Platform.Linux,
 				BitSize.B64),
-				"/1.4.15_2/memcached-dist-1.4.15_2-linux.tar.gz");
-		checkPath(new Distribution(Version.V1_4_15, Platform.Windows,
+				"/1.4.22_1/memcached-dist-1.4.22_1-linux.tar.gz");
+		checkPath(new Distribution(Version.V1_4_22, Platform.Windows,
 				BitSize.B32),
-				"/1.4.15_2/memcached-dist-1.4.15_2-windows.zip");
-		checkPath(new Distribution(Version.V1_4_15, Platform.OS_X,
+				"/1.4.22_1/memcached-dist-1.4.22_1-windows.zip");
+		checkPath(new Distribution(Version.V1_4_22, Platform.OS_X,
 				BitSize.B64),
-				"/1.4.15_2/memcached-dist-1.4.15_2-macos.tar.gz");
+				"/1.4.22_1/memcached-dist-1.4.22_1-macos.tar.gz");
 		// v 2.6.14
 		// checkPath(
 		// new Distribution(Version.V1_4_14, Platform.Linux, BitSize.B64),
@@ -68,14 +68,14 @@ public class _TestPaths {
 	@Test(expected = IllegalArgumentException.class)
 	@Ignore
 	public void testDistributionPathsOSX() {
-		checkPath(new Distribution(Version.V1_4_15, Platform.OS_X,
+		checkPath(new Distribution(Version.V1_4_22, Platform.OS_X,
 				BitSize.B32), " ");
 	}
 
 	@Test(expected = IllegalArgumentException.class)
 	@Ignore
 	public void testDistributionPathsWindows() {
-		checkPath(new Distribution(Version.V1_4_15, Platform.Windows,
+		checkPath(new Distribution(Version.V1_4_22, Platform.Windows,
 				BitSize.B64), " ");
 	}
 
