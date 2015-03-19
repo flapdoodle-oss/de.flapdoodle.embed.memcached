@@ -376,7 +376,7 @@ public class TestExampleReadMeCode extends TestCase {
 		// ...
 		int port = 12345;
 		MemcachedConfig memcachedConfig = new MemcachedConfig(
-				new GenericVersion("1.4.15_2"), port);
+				new GenericVersion("1.4.20_2"), port);
 
 		MemcachedStarter runtime = MemcachedStarter.getDefaultInstance();
 		MemcachedProcess memcached = null;
@@ -411,7 +411,7 @@ public class TestExampleReadMeCode extends TestCase {
 	// ### Main Versions
 	public void testMainVersions() throws UnknownHostException, IOException {
 		// ->
-		IVersion version = Version.V1_4_15;
+		IVersion version = Version.V1_4_20;
 		// uses latest supported 2.2.x Version
 		// version = Version.Main.V1_4_OLD;
 		// uses latest supported production version

@@ -83,7 +83,7 @@ public class MemcachedRuntimeTest extends TestCase {
 		// there is no osx 32bit version for v2.2.1 and above
 		String currentVersion = version.asInDownloadPath();
 		if ((platform == Platform.OS_X) && (bitsize == BitSize.B32)) {
-			if (currentVersion.equals(Version.V1_4_15.asInDownloadPath()))
+			if (currentVersion.equals(Version.V1_4_22.asInDownloadPath()))
 				return true;
 			// if
 			// (currentVersion.equals(Version.V1_4_14.asInDownloadPath()))
