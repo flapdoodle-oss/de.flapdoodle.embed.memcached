@@ -35,7 +35,6 @@ public class ArtifactStoreBuilder extends
 		download().setDefault(
 				new DownloadConfigBuilder().defaultsForCommand(command)
 						.build());
-		libraries().setDefault(libraryStore());
 		downloader().setDefault(new Downloader());
 		return this;
 	}
@@ -50,7 +49,6 @@ public class ArtifactStoreBuilder extends
 		download().setDefault(
 				new DownloadConfigBuilder().defaultsForCommand(command)
 						.build());
-		libraries().setDefault(libraryStore());
 		// disable caching
 		useCache().setDefault(false);
 		downloader().setDefault(new Downloader());

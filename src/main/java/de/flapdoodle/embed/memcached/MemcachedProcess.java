@@ -147,7 +147,7 @@ public class MemcachedProcess
 			// force to find out the pid anyways. This works pretty well
 			// on Unix
 			// (won't help us much here..) and needs Sigar lib on Windows.
-			setProcessId(process.getPid());
+			setProcessId(process.getPid().intValue());
 		} else {
 			setProcessId(getPidFromFile(pidFile()));
 		}
