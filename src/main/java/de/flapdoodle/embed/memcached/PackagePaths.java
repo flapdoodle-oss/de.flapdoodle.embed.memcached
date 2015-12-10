@@ -22,9 +22,10 @@ package de.flapdoodle.embed.memcached;
 
 import java.util.logging.Logger;
 
-import de.flapdoodle.embed.memcached.config.ArtifactStoreBuilder;
+import de.flapdoodle.embed.memcached.config.MemcachedLibraryStore;
 import de.flapdoodle.embed.process.config.store.FileSet;
 import de.flapdoodle.embed.process.config.store.FileType;
+import de.flapdoodle.embed.process.config.store.ILibraryStore;
 import de.flapdoodle.embed.process.config.store.IPackageResolver;
 import de.flapdoodle.embed.process.distribution.ArchiveType;
 import de.flapdoodle.embed.process.distribution.Distribution;
@@ -38,6 +39,7 @@ public class PackagePaths implements IPackageResolver {
 	protected static Logger logger = Logger.getLogger(PackagePaths.class
 			.getName());
 	private final Command command;
+	private final ILibraryStore libraryStore = new MemcachedLibraryStore();
 
 	public PackagePaths(Command command) {
 		this.command = command;
@@ -61,8 +63,7 @@ public class PackagePaths implements IPackageResolver {
 		}
 		FileSet.Builder fbuilder = FileSet.builder().addEntry(
 				FileType.Executable, memcachedPattern);
-		for (String lib : ArtifactStoreBuilder.libraryStore().getLibrary(
-				distribution)) {
+		for (String lib : libraryStore.getLibrary(distribution)) {
 			fbuilder.addEntry(FileType.Library, lib);
 		}
 		return fbuilder.build();

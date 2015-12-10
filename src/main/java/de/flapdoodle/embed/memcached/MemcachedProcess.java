@@ -45,17 +45,16 @@ import de.flapdoodle.embed.process.runtime.AbstractProcess;
 import de.flapdoodle.embed.process.runtime.ProcessControl;
 import de.flapdoodle.embed.process.runtime.Processes;
 
-public class MemcachedProcess
-		extends
+public class MemcachedProcess extends
 		AbstractProcess<MemcachedConfig, MemcachedExecutable, MemcachedProcess> {
 
-	private static Logger logger = Logger.getLogger(MemcachedProcess.class
-			.getName());
+	private static Logger logger = Logger
+			.getLogger(MemcachedProcess.class.getName());
 
 	boolean stopped = false;
 
-	public MemcachedProcess(Distribution distribution,
-			MemcachedConfig config, IRuntimeConfig runtimeConfig,
+	public MemcachedProcess(Distribution distribution, MemcachedConfig config,
+			IRuntimeConfig runtimeConfig,
 			MemcachedExecutable memcachedExecutable) throws IOException {
 		super(distribution, config, runtimeConfig, memcachedExecutable);
 	}
@@ -77,11 +76,14 @@ public class MemcachedProcess
 
 				logger.info("try to stop memcached");
 				if (!sendKillToProcess()) {
-					logger.warning("could not kill memcached, try next");
+					logger.warning(
+							"could not kill memcached, try next");
 					if (!sendTermToProcess()) {
-						logger.warning("could not term memcached, try next");
+						logger.warning(
+								"could not term memcached, try next");
 						if (!tryKillToProcess()) {
-							logger.warning("could not stop memcached the third time, try one last thing");
+							logger.warning(
+									"could not stop memcached the third time, try one last thing");
 						}
 					}
 				}
@@ -102,7 +104,7 @@ public class MemcachedProcess
 	@Override
 	protected List<String> getCommandLine(Distribution distribution,
 			MemcachedConfig config, IExtractedFileSet exe)
-			throws IOException {
+					throws IOException {
 		return Memcached.enhanceCommandLinePlattformSpecific(distribution,
 				Memcached.getCommandLine(getConfig(), exe, pidFile()));
 	}
@@ -113,11 +115,11 @@ public class MemcachedProcess
 		HashMap<String, String> environment = new HashMap<String, String>();
 		// set LD_LIBRARY_PATH
 		if (distribution.getPlatform() == Platform.Linux) {
-			environment.put("LD_LIBRARY_PATH", exe.executable()
-					.getParent());
+			environment.put("LD_LIBRARY_PATH",
+					exe.executable().getParent());
 		} else if (distribution.getPlatform() == Platform.OS_X) {
-			environment.put("DYLD_LIBRARY_PATH", exe.executable()
-					.getParent());
+			environment.put("DYLD_LIBRARY_PATH",
+					exe.executable().getParent());
 		}
 		return environment;
 	}
@@ -166,26 +168,33 @@ public class MemcachedProcess
 			synchronized (MemcachedProcess.class) {
 				logger.info("try to stop memcached");
 
-				if (!Processes.killProcess(new SupportConfig(
-						Command.MemcacheD), platform,
-						StreamToLineProcessor.wrap(Processors
-								.console()), pid)) {
-					logger.warning("could not kill memcached, try next");
-					if (!Processes.termProcess(new SupportConfig(
-							Command.MemcacheD), platform,
-							StreamToLineProcessor.wrap(Processors
-									.console()), pid)) {
-						logger.warning("could not term memcached, try next");
-						if (!Processes
-								.tryKillProcess(
-										new SupportConfig(
-												Command.MemcacheD),
-										platform,
-										StreamToLineProcessor
-												.wrap(Processors
-														.console()),
-										pid)) {
-							logger.warning("could not stop memcached the third time, try one last thing");
+				if (!Processes
+						.killProcess(
+								new SupportConfig(
+										Command.MemcacheD),
+								platform,
+								StreamToLineProcessor.wrap(
+										Processors.console()),
+								pid)) {
+					logger.warning(
+							"could not kill memcached, try next");
+					if (!Processes.termProcess(
+							new SupportConfig(Command.MemcacheD),
+							platform,
+							StreamToLineProcessor.wrap(
+									Processors.console()),
+							pid)) {
+						logger.warning(
+								"could not term memcached, try next");
+						if (!Processes.tryKillProcess(
+								new SupportConfig(
+										Command.MemcacheD),
+								platform,
+								StreamToLineProcessor.wrap(
+										Processors.console()),
+								pid)) {
+							logger.warning(
+									"could not stop memcached the third time, try one last thing");
 						}
 					}
 				}
