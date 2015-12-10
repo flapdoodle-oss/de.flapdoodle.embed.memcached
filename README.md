@@ -33,3 +33,4 @@ Snapshots (Repository [http://oss.sonatype.org/content/repositories/snapshots/](
 		<version>1.06.4-SNAPSHOT</version>
 	</dependency>
 
+
