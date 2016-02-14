@@ -22,7 +22,7 @@ Stable (Maven Central Repository, Released: 10.12.2015 - wait 24hrs for [maven c
 	<dependency>
 		<groupId>de.flapdoodle.embed</groupId>
 		<artifactId>de.flapdoodle.embed.memcached</artifactId>
-		<version>1.06.3</version>
+		<version>1.06.4</version>
 	</dependency>
 
 Snapshots (Repository [http://oss.sonatype.org/content/repositories/snapshots/](http://oss.sonatype.org/content/repositories/snapshots/de/flapdoodle/embed/de.flapdoodle.embed.memcached) )
@@ -30,7 +30,7 @@ Snapshots (Repository [http://oss.sonatype.org/content/repositories/snapshots/](
 	<dependency>
 		<groupId>de.flapdoodle.embed</groupId>
 		<artifactId>de.flapdoodle.embed.memcached</artifactId>
-		<version>1.06.4-SNAPSHOT</version>
+		<version>1.06.5-SNAPSHOT</version>
 	</dependency>
 
 
