@@ -25,10 +25,6 @@ import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.util.logging.Logger;
 
-import junit.framework.Assert;
-import junit.framework.TestCase;
-import net.spy.memcached.MemcachedClient;
-
 import org.apache.commons.io.FileUtils;
 import org.junit.Test;
 
@@ -39,6 +35,10 @@ import de.flapdoodle.embed.memcached.distribution.Version;
 import de.flapdoodle.embed.process.config.IRuntimeConfig;
 import de.flapdoodle.embed.process.io.directories.IDirectory;
 import de.flapdoodle.embed.process.io.directories.PropertyOrPlatformTempDir;
+import de.flapdoodle.embed.process.runtime.Network;
+import junit.framework.Assert;
+import junit.framework.TestCase;
+import net.spy.memcached.MemcachedClient;
 
 /**
  * Integration test for starting and stopping MongodExecutable
@@ -57,24 +57,25 @@ public class MemcachedExecutableTest extends TestCase {
 		boolean useMemcache = true;
 		int loops = 10;
 
+		int port = Network.getFreeServerPort();
 		MemcachedConfig memcachedConfig = new MemcachedConfig(
-				Version.Main.PRODUCTION, 12345);
+				Version.Main.PRODUCTION, port);
 
-		IRuntimeConfig runtimeConfig = new RuntimeConfigBuilder().defaults(
-				Command.MemcacheD).build();
+		IRuntimeConfig runtimeConfig = new RuntimeConfigBuilder()
+				.defaults(Command.MemcacheD).build();
 
 		for (int i = 0; i < loops; i++) {
 			_logger.info("Loop: " + i);
 			MemcachedExecutable memcachedExe = MemcachedStarter
-					.getInstance(runtimeConfig).prepare(
-							memcachedConfig);
+					.getInstance(runtimeConfig)
+					.prepare(memcachedConfig);
 			try {
 				MemcachedProcess memcached = memcachedExe.start();
 
 				if (useMemcache) {
 					MemcachedClient jmemcache = new MemcachedClient(
 							new InetSocketAddress("localhost",
-									12345));
+									port));
 					// adding a new key
 					jmemcache.add("key", 5, "value");
 					// getting the key value
@@ -91,8 +92,8 @@ public class MemcachedExecutableTest extends TestCase {
 	}
 
 	@Test
-	public void testStartMemcachedOnNonFreePort() throws IOException,
-			InterruptedException {
+	public void testStartMemcachedOnNonFreePort()
+			throws IOException, InterruptedException {
 
 		MemcachedConfig memcachedConfig = new MemcachedConfig(
 				Version.Main.PRODUCTION, 12346);
@@ -102,32 +103,32 @@ public class MemcachedExecutableTest extends TestCase {
 		FileUtils.forceMkdir(outer);
 		IRuntimeConfig runtimeConfig = new RuntimeConfigBuilder()
 				.defaults(Command.MemcacheD)
-				.artifactStore(
-						new ArtifactStoreBuilder()
-								.defaultsWithoutCache(
-										Command.MemcacheD)
-								.tempDir(new IDirectory() {
-									@Override
-									public File asFile() {
-										return outer;
-									}
+				.artifactStore(new ArtifactStoreBuilder()
+						.defaultsWithoutCache(Command.MemcacheD)
+						.tempDir(new IDirectory() {
+							@Override
+							public File asFile() {
+								return outer;
+							}
 
-									@Override
-									public boolean isGenerated() {
-										return false;
-									}
-								})).build();
+							@Override
+							public boolean isGenerated() {
+								return false;
+							}
+						}))
+				.build();
 
-		MemcachedExecutable memcachedExe = MemcachedStarter.getInstance(
-				runtimeConfig).prepare(memcachedConfig);
+		MemcachedExecutable memcachedExe = MemcachedStarter
+				.getInstance(runtimeConfig).prepare(memcachedConfig);
 		MemcachedProcess memcached = memcachedExe.start();
 
 		boolean innerMongodCouldNotStart = false;
 		Thread.sleep(500);
 
-		MemcachedExecutable innerExe = MemcachedStarter.getInstance(
-				new RuntimeConfigBuilder().defaults(Command.MemcacheD)
-						.build()).prepare(memcachedConfig);
+		MemcachedExecutable innerExe = MemcachedStarter
+				.getInstance(new RuntimeConfigBuilder()
+						.defaults(Command.MemcacheD).build())
+				.prepare(memcachedConfig);
 		try {
 			MemcachedProcess innerMemcached = innerExe.start();
 		} catch (IOException iox) {

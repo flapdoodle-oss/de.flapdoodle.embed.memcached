@@ -25,8 +25,6 @@ import java.net.InetSocketAddress;
 import java.util.ArrayList;
 import java.util.List;
 
-import junit.framework.TestCase;
-import net.spy.memcached.MemcachedClient;
 import de.flapdoodle.embed.memcached.config.MemcachedConfig;
 import de.flapdoodle.embed.memcached.config.RuntimeConfigBuilder;
 import de.flapdoodle.embed.memcached.distribution.Version;
@@ -36,7 +34,10 @@ import de.flapdoodle.embed.process.distribution.Distribution;
 import de.flapdoodle.embed.process.distribution.IVersion;
 import de.flapdoodle.embed.process.distribution.Platform;
 import de.flapdoodle.embed.process.extract.IExtractedFileSet;
+import de.flapdoodle.embed.process.runtime.Network;
 import de.flapdoodle.embed.process.store.IArtifactStore;
+import junit.framework.TestCase;
+import net.spy.memcached.MemcachedClient;
 
 // CHECKSTYLE:OFF
 public class MemcachedRuntimeTest extends TestCase {
@@ -61,15 +62,18 @@ public class MemcachedRuntimeTest extends TestCase {
 				int numberChecked = 0;
 				for (BitSize bitsize : BitSize.values()) {
 					// there is no osx 32bit version for v2.2.1
-					boolean skip = (platform == Platform.Windows && bitsize == BitSize.B64)
-							|| (platform != Platform.Windows && bitsize == BitSize.B32);
+					boolean skip = (platform == Platform.Windows
+							&& bitsize == BitSize.B64)
+							|| (platform != Platform.Windows
+									&& bitsize == BitSize.B32);
 					if (!skip)
 						if (!shipThisVersion(platform, version,
 								bitsize)) {
 							numberChecked++;
-							check(config, new Distribution(
-									version, platform,
-									bitsize));
+							check(config,
+									new Distribution(version,
+											platform,
+											bitsize));
 						}
 				}
 				assertTrue(numberChecked > 0);
@@ -88,8 +92,8 @@ public class MemcachedRuntimeTest extends TestCase {
 			// if
 			// (currentVersion.equals(Version.V1_4_14.asInDownloadPath()))
 			// return true;
-			if (currentVersion.equals(Version.Main.PRODUCTION
-					.asInDownloadPath()))
+			if (currentVersion.equals(
+					Version.Main.PRODUCTION.asInDownloadPath()))
 				return true;
 			// if (currentVersion.equals(Version.Main.DEPRECATED
 			// .asInDownloadPath()))
@@ -114,12 +118,12 @@ public class MemcachedRuntimeTest extends TestCase {
 
 		Timer timer = new Timer();
 
-		int port = 12345;
+		int port = Network.getFreeServerPort();
 		MemcachedProcess memcachedProcess = null;
 		MemcachedExecutable memcached = null;
 
-		IRuntimeConfig runtimeConfig = new RuntimeConfigBuilder().defaults(
-				Command.MemcacheD).build();
+		IRuntimeConfig runtimeConfig = new RuntimeConfigBuilder()
+				.defaults(Command.MemcacheD).build();
 		MemcachedStarter runtime = MemcachedStarter
 				.getInstance(runtimeConfig);
 
@@ -134,7 +138,7 @@ public class MemcachedRuntimeTest extends TestCase {
 			timer.check("After memcachedProcess");
 
 			MemcachedClient jmemcache = new MemcachedClient(
-					new InetSocketAddress("localhost", 12345));
+					new InetSocketAddress("localhost", port));
 			timer.check("After jmemcached");
 			// adding a new key
 			jmemcache.add("key", 5, "value");
