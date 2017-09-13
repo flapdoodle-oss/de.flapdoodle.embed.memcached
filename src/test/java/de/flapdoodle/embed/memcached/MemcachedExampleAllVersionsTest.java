@@ -26,8 +26,6 @@ import java.net.InetSocketAddress;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import net.spy.memcached.MemcachedClient;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -38,6 +36,8 @@ import org.junit.runners.Parameterized.Parameters;
 import de.flapdoodle.embed.memcached.config.MemcachedConfig;
 import de.flapdoodle.embed.memcached.distribution.Version;
 import de.flapdoodle.embed.process.distribution.IVersion;
+import de.flapdoodle.embed.process.runtime.Network;
+import net.spy.memcached.MemcachedClient;
 
 /**
  * Test whether a race condition occurs between setup and tear down of setting
@@ -62,7 +62,7 @@ public class MemcachedExampleAllVersionsTest {
 		return result;
 	}
 
-	private static final int PORT = 12345;
+	private int port;
 	private final IVersion memcacheVersion;
 	private MemcachedExecutable memcachedExe;
 	private MemcachedProcess memcached;
@@ -74,15 +74,16 @@ public class MemcachedExampleAllVersionsTest {
 
 	@Before
 	public void setUp() throws Exception {
+		port = Network.getFreeServerPort();
 
 		MemcachedStarter runtime = MemcachedStarter.getDefaultInstance();
-		memcachedExe = runtime.prepare(new MemcachedConfig(
-				this.memcacheVersion, PORT));
+		memcachedExe = runtime.prepare(
+				new MemcachedConfig(this.memcacheVersion, port));
 		memcached = memcachedExe.start();
 
 		// Connecting to Memcache on localhost
-		jmemcache = new MemcachedClient(new InetSocketAddress("localhost",
-				PORT));
+		jmemcache = new MemcachedClient(
+				new InetSocketAddress("localhost", port));
 	}
 
 	@After

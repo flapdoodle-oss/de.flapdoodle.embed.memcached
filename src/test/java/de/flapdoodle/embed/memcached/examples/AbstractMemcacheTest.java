@@ -22,13 +22,14 @@ package de.flapdoodle.embed.memcached.examples;
 
 import java.net.InetSocketAddress;
 
-import junit.framework.TestCase;
-import net.spy.memcached.MemcachedClient;
 import de.flapdoodle.embed.memcached.MemcachedExecutable;
 import de.flapdoodle.embed.memcached.MemcachedProcess;
 import de.flapdoodle.embed.memcached.MemcachedStarter;
 import de.flapdoodle.embed.memcached.config.MemcachedConfig;
 import de.flapdoodle.embed.memcached.distribution.Version;
+import de.flapdoodle.embed.process.runtime.Network;
+import junit.framework.TestCase;
+import net.spy.memcached.MemcachedClient;
 
 // ->
 public abstract class AbstractMemcacheTest extends TestCase {
@@ -42,14 +43,15 @@ public abstract class AbstractMemcacheTest extends TestCase {
 	protected void setUp() throws Exception {
 
 		MemcachedStarter runtime = MemcachedStarter.getDefaultInstance();
-		_memcachedExe = runtime.prepare(new MemcachedConfig(
-				Version.Main.PRODUCTION, 12345));
+		int port = Network.getFreeServerPort();
+		_memcachedExe = runtime.prepare(
+				new MemcachedConfig(Version.Main.PRODUCTION, port));
 		_memcached = _memcachedExe.start();
 
 		super.setUp();
 
-		_jmemcache = new MemcachedClient(new InetSocketAddress("localhost",
-				12345));
+		_jmemcache = new MemcachedClient(
+				new InetSocketAddress("localhost", port));
 	}
 
 	@Override
